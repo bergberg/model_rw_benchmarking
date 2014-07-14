@@ -24,7 +24,7 @@ for all exclusive[^1] pairs $(i,j)$  the resulting distribution of $x_{ij}$ will
 We wish to estimate the marginal posterior density for the $\mu_i$,
 $$P(\mu|x,I,M,N)=\int\dots\int P(\mu|\tau,x,I,M,N)\mathrm{d}\tau_1 \dots \mathrm{d}\tau_M$$
 ### Implementation in Stan
-
-
-[^1][i.e., choose all pairs $(i,j)$ such that each $i$ and $j$ occur at most once]
 Stan [@stan-software:2014]
+
+[^1]: i.e., choose all pairs $(i,j)$ such that each $i$ and $j$ occur at most once
+
