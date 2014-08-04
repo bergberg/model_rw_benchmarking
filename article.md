@@ -37,4 +37,4 @@ $$\begin{matrix} \mu_{0i}=0, i=1\dots N \\ \nu_i \end{matrix}$$
 Stan [@stan-software:2014]
 
 [^1]: I.e., choose all pairs $(i,j)$ such that each $i$ and $j$ occur at most once
-[^2]: Alternatively, we could set some constraint on the $q_j$ by specifying a prior.
+[^2]: Alternatively, we could set some constraint on the $q_j$ by specifying a prior which breaks the symmetry.
