@@ -16,10 +16,10 @@ x_{ij|I_{ij}=1}  \sim  \mathrm {Normal} (q_{j} + \mu_{i},\tau_i^{-1} )
 $$
 
 Each rating $x_{.j}$ is an estimate of the (unknown)  'true' rating $q_j$ of that counterparty. We assume that each bank $i$ uses a model characterized by a bias $\mu_i$ and a precision $\tau_i = \sigma_i^{-2}$ which are the same for each rating of that bank, and we assume that the $x_{.j}$ are uncorrelated.
-As it is, this model suffers from an M-way invariance;  under the simultaneous transformations
+As it is, this model suffers from an ?-way invariance;  under the simultaneous transformations
 
 $$
-	\begin{matrix} q_j \to q_j+a_{ij} \\ \mu_i\to\mu_i-a_{ij} \end{matrix}
+	\begin{matrix} q_j \to q_j+a_{ij} \\ \left{\mu_i\to\mu_i-a_{ij}\right_{i:I_{ij}=1} \end{matrix}
 $$
 
 for any set of exclusive[^1] pairs $(i,j)$  the resulting distribution of $x_{ij}$ will be the same.
