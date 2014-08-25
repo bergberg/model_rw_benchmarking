@@ -1,14 +1,27 @@
-# Bayesian model benchmarking (working title)
-## Motivation
-## Setup/data description 
+---
+title: "Bayesian model benchmarking (working title)"
+author: "P. J. van den Berg"
+date: "6 August, 2014"
+---
+
+Introduction
+---------------------
+
+Motivation
+---------------------
+
+Data description 
+---------------------
 
 We are given a dataset of ratings 
 
 $$\left[ x_{ij}\right]_{I_{ij}=1}\in\mathbb{R}, i=1\dots N,j=1\dots M, I_{ij} \in [0,1]$$
 
-of $M$ counterparties by $N$ banks. The ratings $x$ are transformed to be numbers on the real line; for instance, if given as probability of default estimates $p\in[0,1]$, we transform these as $x=\Phi^{-1}(p)$. Not all counterparties are rated by all banks; we write this as an incidence matrix $I_{ij}$ where $I_{ij}=1$ if a rating by bank $i$ for counterparty $j$ exists.
+of $M$ counterparties by $N$ banks. The ratings $x$ are transformed to be numbers on the real line and standardized; for instance, if given as probability of default estimates $p\in[0,1]$, we transform these as $x=\Phi^{-1}(p)$ and $x\to(x - \bar{x}) / \text{sd}(x)$. Not all counterparties are rated by all banks; we write this as an incidence matrix $I_{ij}$ where $I_{ij}=1$ if a rating by bank $i$ for counterparty $j$ exists, and $0$ otherwise.
 
-## Model description
+Model description
+---------------------
+
 Our model is particularly simple:
 
 $$ 
@@ -19,11 +32,11 @@ Each rating $x_{.j}$ is an estimate of the (unknown)  'true' rating $q_j$ of tha
 As it is, this model suffers from an ?-way invariance;  under the simultaneous transformations
 
 $$
-	\begin{matrix} q_j \to q_j+a_{ij} \\ \left{\mu_i\to\mu_i-a_{ij}\right_{i:I_{ij}=1} \end{matrix}
+q_j \to q_j+a_{ij}, \mu_i\to\mu_i-a_{ij}  \left\{i:I_{ij}=1\right\}
 $$
 
 for any set of exclusive[^1] pairs $(i,j)$  the resulting distribution of $x_{ij}$ will be the same.
-We can remove the collinearity by setting (for instance) all $q_j  = \sum_{i=1}^N I_{ij} x_{ij} / \sum_{i=1}^N I_{ij}, j = 1\dots M$[^2] and restate our model in terms of $x_{ij} \to x_{ij}-q_j$. The bias parameters then represent the bias relative to the average rating (which may, of course, itself be a biased estimate).Note that this also removes any dependence on $x_{.j}$ where $\sum_1^N x_{ij}=1$, i.e., counterparties for which only one rating is available. 
+We can remove the collinearity by setting (for instance) all $q_j  = \sum_{i=1}^N I_{ij} x_{ij} / \sum_{i=1}^N I_{ij}, j = 1\dots M$[^2] and restate our model in terms of $x_{ij} \to x_{ij}-q_j$. The bias parameters then represent the bias relative to the average rating (which may, of course, itself be a biased estimate). Note that this also explicitly removes any dependence on $x_{.j}$ where $\sum_1^N x_{ij}=1$, i.e., counterparties for which only one rating is available. 
 We wish to estimate the marginal posterior density for the $\mu_i$,
 $$P(\mu|x,I,M,N)=\int\dots\int P(\mu|\tau,x,I,M,N)\mathrm{d}\tau_1 \dots \mathrm{d}\tau_M$$
 
@@ -33,7 +46,50 @@ $$\mathrm{P}(\mu_i,\tau_i|\dots)=\mathrm{NormalGamma}(\mu_{0i},\nu_i,\alpha_i,\b
 
 with 
 $$\begin{matrix} \mu_{0i}=0, i=1\dots N \\ \nu_i \end{matrix}$$
-### Implementation in Stan
+
+Appendix: Stan implementation
+=============================
+
+	data {
+		int<lower=0> N; // number of models      
+		int<lower=0> M; // number of subjects
+
+		real x[M,N]; // (standardized) model estimates
+		int<lower=0,upper=1>I[M,N]; // masks x
+	}
+
+	parameters {
+		real y[M,N]; // unobserved ratings
+		real mu[N]; // model bias
+		real sigma[N]; // model precision
+	}
+
+
+	model {
+		real X[M,N];  // combination of observed and unobserved ratings
+		for (j in 1:M)
+			for (i in 1:N)
+				if (I[i,j]==1)			       
+					X[i,j] = x[i,j];
+				else
+					X[i,j] = y[i,j];
+
+
+		for (j in 1:M)
+			for (i in 1:N)
+					X[i,j] ~ normal(q[j] + mu[i], sigma[i]);
+
+		for (j in 1:M)
+			q[j] ~ cauchy(0,10);
+
+		for (i in 1:N)
+			mu[i] ~ cauchy(0,10);
+			sigma[i] ~ cauchy(0,10);
+
+	}
+
+	
+
 Stan [@stan-software:2014]
 
 [^1]: I.e., choose all pairs $(i,j)$ such that each $i$ and $j$ occur at most once
