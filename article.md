@@ -92,12 +92,12 @@ Figures **???** show the resulting distributions for the biases $\mathbf{mu}$
 Results
 ----------
 
-<div id="fig:lalune">
+<!-- <div id="fig:lalune">
 ![A voyage to the moon\label{fig:lalune}](C:\Users\rn8089\Desktop\LGD_dutch_mortgages.png)
 
 </div>
 
-See [figure \ref{fig:lalune}](#fig:lalune).
+See [figure \ref{fig:lalune}](#fig:lalune). -->
 
 Appendix: Stan implementation
 =============================
