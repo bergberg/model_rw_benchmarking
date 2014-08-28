@@ -1,0 +1,32 @@
+\documentclass[11pt]{report}
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+
+\usetikzlibrary{external}
+\tikzset{external/system call={pdflatex \tikzexternalcheckshellescape -halt-on-error 
+-interaction=batchmode -jobname "\image" "\texsource" && % or ;
+pdftops -eps "\image".pdf}}
+\tikzexternalize[shell escape=-enable-write18] % MikTeX uses a -enable-write18 instead of --shell-escape.
+
+\begin{document}
+    \begin{figure}
+      \centering
+      \tikz{ %
+        \node[latent] (q) {$q_j$} ; %
+        \node[obs, left=of q] (x) {$x_{ij}$} ; %
+        \node[obs, below=of x] (I) {$I_{ij}$} ; %
+        \node[latent, below=of I] (p) {$p$} ; %
+        \node[latent, below=of p] (a) {$a$} ; %
+        \node[latent, right=of a] (b) {$b$} ; %
+        \node[latent, left=of x] (mu) {$\mu_i$} ; %
+        \node[latent, below=of mu] (tau) {$\tau_i$} ; %        
+        \plate[inner sep=0.25cm, xshift=-0.02cm, yshift=0.07cm] {plate1} {(q) (x) (I)} {M}; %
+        \plate[inner sep=0.25cm, xshift=-0.12cm, yshift=0.17cm] {plate2} {(x) (I) (mu) (tau)} {N}; %
+        \edge {q} {x} ; %
+        \edge {mu,tau} {x} ; %
+        \edge {a,b} {p} ; %
+        \edge {p} {I} ; %
+        \edge {I} {x} ; %
+      }
+    \end{figure}
+    \end{document}
