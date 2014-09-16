@@ -13,9 +13,8 @@ Introduction
 ---------------------
 
 As a part of model validation, we often want to compare the outcomes of
-several models on a set of common subjects. For instance, we would want to
-compare ratings by several banks on common counterparties, or compare the
-outcomes of different [...]
+several models on a set of common subjects, for instance, when we
+compare ratings by several banks on common counterparties [...]
 
 Model description 
 ---------------------
@@ -54,10 +53,9 @@ rating is present is independent of either model or counterparty.
 As it is, this model suffers from a collinearity;  under the simultaneous
 transformations $q_j \to q_j+a,\ \mu_i\to\mu_i-a$ the resulting distribution
 of $x_{ij}$ will be the same. We remove this collinearity by specifying a
-prior on the $q_j$ which breaks the symmetry. The bias parameters represent
-the bias relative to the average rating. We also remove any dependence on
-$x_{.j}$ where $\sum_1^N x_{ij}=1$, i.e., subjects for which only one rating
-is available.
+prior on the $q_j$ which breaks the symmetry. We also explicitly remove any
+dependence on $x_{.j}$ where $\sum_1^N x_{ij}=1$, i.e., subjects for which
+only one rating is available.
 
 We wish to estimate the marginal posterior density for the $\mu_i$,
 
