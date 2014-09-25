@@ -6,16 +6,23 @@ tags: benchmarking, statistics, bayesian, draft
 abstract:  |
 	We describe a simple model for comparing model outcomes and apply
 	it to a dataset of common counterparty ratings, explicitly including the
-	treatment of missing values.
+	treatment of missing ratings.
 ---
 
 Introduction
 ---------------------
 
 As a part of model validation, we often want to compare the outcomes of
-several models on a set of common subjects, for instance, when we
-compare ratings by several banks on common counterparties [...]
-
+several models on a set of common subjects, for instance when we compare
+ratings by several banks on common counterparties. While one may easily come
+up with any number of heuristics to assess the extent to which one bank is
+biased relative to the others, we believe that, conceptually, the underlying
+model for such heuristics closely matches the one we describe below. The
+advantage of estimating the parameters of such a simple model is that we can
+take into account the effect of limited statistics and quantify the strength
+of the evidence. In addition, the simple model is easily extensible to include
+additional effects, e.g. to take into account selection effects.
+ 
 Model description 
 ---------------------
 
@@ -26,10 +33,10 @@ $$\left[ x_{ij}\right]_{I_{ij}=1}\in\mathbb{R}, i=1\dots N,j=1\dots M, I_{ij} \i
 of $M$ rating subjects by $N$ models. The ratings $x$ are transformed to be
 numbers on the real line and standardized; for instance, if given as
 probability of default estimates $p\in[0,1]$, we transform these as
-$x=\Phi^{-1}(p)$ and $x\to(x - \bar{x}) / \mathrm{sd}(x)$. Not all
-subjects are rated by all models; we write this as an incidence matrix
-$I_{ij}$ where $I_{ij}=1$ if a rating by model $i$ for counterparty $j$
-exists, and $0$ otherwise.
+$x=\Phi^{-1}(p)$ and $x\to(x - \bar{x}) / \mathrm{sd}(x)$. Not all subjects
+are rated by all models; we write this as an incidence matrix $I_{ij}$ where
+$I_{ij}=1$ if a rating by model $i$ for counterparty $j$ exists, and $0$
+otherwise.
 
 Our model is particularly simple (see also [figure \ref{fig:diagram}](#fig:diagram)):
 
