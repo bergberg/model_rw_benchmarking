@@ -82,16 +82,17 @@ Data
 -----------
 
 As an example, we use data from the 2012 Dutch Hypothetical Portfolio Exercise
-(HPE). These data contain PD and LGD predictions for 342 corporate
-subjects by 7 models and rating agencies. We exclude PD values equal to
-1, set PD/LGD values equal to 1(0) to $\Phi(+(-)8.1259)$
-(corresponding to the largest (smallest) representable double precision float)
-and normalize as
+(HPE). These data contain PD and LGD predictions for 342 corporate subjects by
+7 models and rating agencies. We exclude PD?LGD values equal or larger than 1,
+set PD/LGD values equal to 0 to $\Phi(-8.1259)$ (corresponding to the
+largest (smallest) representable double precision float) and normalize as
 
-$$ \begin{matrix} \mathrm{R} \to x = (\Phi^{-1}(\mathrm{R}) - \mathrm{mean}(x')) / \mathrm{sd}(x) \\ \mathrm{with} \\ x' = \Phi^{-1}(\mathrm{R})  \end{matrix} $$
+$$ \begin{matrix} \mathrm{R} \to x = (x' - \mathrm{mean}(x')) / \mathrm{sd}(x') \\ \mathrm{with} \\ x' = \Phi^{-1}(\mathrm{R})  \end{matrix} $$
 
-where $\mathrm{R}$ is either the PD or LGD.
-Figures **???** show the resulting distributions for the biases $\mathbf{mu}$
+where $\mathrm{R}$ is either the PD or LGD. Figures **???** show
+the resulting distributions for the biases $\mathbf{mu}$. Transforming the parameter domain
+to span the real line has the unfortunate effect of making the absolute size
+of the bias and error parameters hard to interpret; 
 
 
 Results
